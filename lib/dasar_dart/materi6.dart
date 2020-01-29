@@ -1,6 +1,6 @@
 // Materi 6: Konsep pewarisan
 
-import 'package:dasar_flutter/materi5.dart';
+import 'package:dasar_flutter/dasar_dart/materi5.dart';
 
 class MahasiswaTeknik extends Mahasiswa {
   String kampus = 'AkuNgeblog.com';
