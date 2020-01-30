@@ -23,14 +23,14 @@ class _MaterialScreenState extends State<MaterialScreen> {
     );
 
     // Membuat font heading
-    var display1 = Theme.of(context).textTheme.display1;
+    //var display1 = Theme.of(context).textTheme.display1;
 
     // Isi Konten
     var _body = Column(
       children: <Widget>[
         Text(
           'Belajar Flutter',
-          style: display1,
+          //style: display1,
         ),
         SizedBox(height: 16.0),
         Text(

@@ -20,13 +20,13 @@ class _HelloScreenState extends State<HelloScreen> {
       child: Text('Yey'),
     );
 
-    var label = Text('Hello');
+    //var label = Text('Hello');
 
-    var baris = Row(children: <Widget>[box, box, label]);
+    //var baris = Row(children: <Widget>[box, box, label]);
 
-    var vertikal = Column(
-      children: <Widget>[label, box, box, baris],
-    );
+    // var vertikal = Column(
+    //   children: <Widget>[label, box, box, baris],
+    // );
 
     var tombol = RaisedButton(
       child: Text("Button"),

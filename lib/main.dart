@@ -1,6 +1,6 @@
-import 'package:dasar_flutter/ui/material_screen.dart';
+import 'package:dasar_flutter/ui/componen/list_ui.dart';
 import 'package:flutter/material.dart';
-import 'ui/material_screen.dart';
+
 // import 'package:flutter/';
 
 void main() => runApp(MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MaterialScreen(),
+      home: new ListUi(),
     );
   }
 }

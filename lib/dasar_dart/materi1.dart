@@ -10,16 +10,16 @@ main() {
   // a. Deklarasi implisit (tipe datanya tidak ditentutakan)
 
   var nama = "Irfannur Diah"; //String
-  var nilai = 10; //int
-  var ipk = 3.8; // double
-  var kondisi = false; //boolean
+  // var nilai = 10; //int
+  // var ipk = 3.8; // double
+  // var kondisi = false; //boolean
 
   // b. Deklarasi eksplisit (tipe data didefenisikan)
 
-  String name = 'Irfannur Diah';
-  int value = 10;
-  double degree = 18.8;
-  bool condition = false;
+  // String name = 'Irfannur Diah';
+  // int value = 10;
+  // double degree = 18.8;
+  // bool condition = false;
 
   // mencetak isi variabel ke layar
   print('Isi dari variabel nama adalah $nama');
