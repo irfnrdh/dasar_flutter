@@ -1,0 +1,19 @@
+dependencies: \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Runner/GeneratedPluginRegistrant.m \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Runner/GeneratedPluginRegistrant.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Modules/module.modulemap \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterTexture.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterPlugin.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterEngine.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterDartProject.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterBinaryMessenger.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterViewController.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterPluginAppLifeCycleDelegate.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterPlatformViews.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterHeadlessDartRunner.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterChannels.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterCallbackCache.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterCodecs.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterMacros.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/FlutterAppDelegate.h \
+  /Users/irfnrdh/flutter/dasar_flutter/ios/Flutter/Flutter.framework/Headers/Flutter.h

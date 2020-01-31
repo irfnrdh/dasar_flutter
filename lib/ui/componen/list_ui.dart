@@ -15,25 +15,61 @@ class _ListUiState extends State<ListUi> {
       body: ListView(
         padding: EdgeInsets.all(16.0),
         children: <Widget>[
+          // List Biasa
           ListTile(
-              title: Text('Test'),
-              subtitle: Text('Apa Aja!'),
-              trailing: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  print('Hellow!');
-                },
-              ),
-
-              // Icon(
-              //   Icons.arrow_back,
-              //   color: Colors.blue,
-              // ),
-              onTap: () {
-                print('Hello');
+            title: Text('Test'),
+            subtitle: Text('Apa Aja!'),
+            trailing: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                print('Hellow!');
               },
-              leading: Image.network(
-                  'https://miro.medium.com/fit/c/160/160/1*zePc2RtjyFLaETq2bGJosA.png')),
+            ),
+            onTap: () {
+              print('Hello');
+            },
+            leading: CircleAvatar(
+              radius: 16,
+              backgroundColor: Colors.black,
+              backgroundImage: NetworkImage(
+                  'https://miro.medium.com/fit/c/160/160/1*zePc2RtjyFLaETq2bGJosA.png'),
+              child: Image(
+                  image: NetworkImage(
+                      'https://miro.medium.com/fit/c/160/160/1*zePc2RtjyFLaETq2bGJosA.png')),
+            ),
+          ),
+
+          // List yang dapat expansi
+          ExpansionTile(
+            title: Text('Bonus'),
+            subtitle: Text('Mantull'),
+            trailing: Icon(Icons.access_alarms),
+            leading: Icon(Icons.accessibility),
+            children: <Widget>[
+              ListTile(
+                title: Text('Test'),
+                subtitle: Text('Apa Aja!'),
+                trailing: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    print('Hellow!');
+                  },
+                ),
+                onTap: () {
+                  print('Hello');
+                },
+                leading: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Colors.black,
+                  backgroundImage: NetworkImage(
+                      'https://miro.medium.com/fit/c/160/160/1*zePc2RtjyFLaETq2bGJosA.png'),
+                  child: Image(
+                      image: NetworkImage(
+                          'https://miro.medium.com/fit/c/160/160/1*zePc2RtjyFLaETq2bGJosA.png')),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
