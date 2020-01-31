@@ -7,3 +7,6 @@ main() {
 
   //
 }
+
+// Materi ini akan berlanjut di
+// https://github.com/Temidtech/dart-cheat-sheet#lambda-functions

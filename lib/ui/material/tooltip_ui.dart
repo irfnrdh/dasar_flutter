@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TooltipUi extends StatelessWidget {
-  var text = Text('Ini adalah tulisan');
+  // var text = Text('Ini adalah tulisan');
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class TooltipUi extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Column(
             children: <Widget>[
-              text,
+              // text,
 
               // Tooltip(
               //   message: Text("Ini adalah isi tooltip"),

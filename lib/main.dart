@@ -1,4 +1,4 @@
-import 'package:dasar_flutter/ui/material/tooltip_ui.dart';
+import 'package:dasar_flutter/ui/hello_screen.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter/';
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TooltipUi(),
+      home: HelloScreen(),
     );
   }
 }
