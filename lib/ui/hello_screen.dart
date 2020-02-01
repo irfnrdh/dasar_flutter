@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 
 class HelloScreen extends StatefulWidget {
+  static String tag = 'home-page';
+
   @override
   _HelloScreenState createState() => _HelloScreenState();
 }

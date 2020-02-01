@@ -36,3 +36,18 @@ flutter create <folder> --macos .
 
 
 FLutter Desktop Di MAC
+
+
+https://www.google.com/searchbyimage?&image_url=
+
+
+
+Database : 
+
+clouddirestore -> database
+firebase_auth -> login
+firebase_storage -> data file
+
+
+firedart
+
