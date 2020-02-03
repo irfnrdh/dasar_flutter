@@ -1,4 +1,6 @@
-import 'package:dasar_flutter/praktek/dashboard_ui.dart';
+//import 'package:dasar_flutter/praktek/dashboard_ui.dart';
+//import 'package:dasar_flutter/praktek/collapsing_toolbar.dart';
+import 'package:dasar_flutter/praktek/login_ui.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter/';
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DashboardUi(),
+      home: new LoginUi(),
       routes: routes,
     );
   }
