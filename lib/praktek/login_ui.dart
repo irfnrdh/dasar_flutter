@@ -1,3 +1,4 @@
+import 'package:dasar_flutter/praktek/signup_ui.dart';
 import 'package:flutter/material.dart';
 
 class LoginUi extends StatefulWidget {
@@ -55,6 +56,19 @@ class _LoginUiState extends State<LoginUi> {
       ),
     );
 
+    final signupButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        onPressed: () => Navigator.pushNamed(context, SignupUi.routeName),
+        padding: EdgeInsets.all(12),
+        color: Colors.lightBlueAccent,
+        child: Text('Sign-Up', style: TextStyle(color: Colors.white)),
+      ),
+    );
+
     final forgotLabel = FlatButton(
       child: Text(
         'Lupa Katasandi?',
@@ -77,7 +91,8 @@ class _LoginUiState extends State<LoginUi> {
             password,
             SizedBox(height: 24.0),
             loginButton,
-            forgotLabel
+            forgotLabel,
+            signupButton
           ],
         ),
       ),
