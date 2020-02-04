@@ -1,3 +1,5 @@
+import 'package:dasar_flutter/config.dart';
+import 'package:dasar_flutter/model/user.dart';
 import 'package:dasar_flutter/praktek/login_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ class _SignupUiState extends State<SignupUi> {
   Widget space({double height, double width}) =>
       SizedBox(height: height, width: width);
 
+  User user = User.empty();
   String _displayName = '';
   String _password = '';
   String _email = '';
@@ -118,11 +121,36 @@ class _SignupUiState extends State<SignupUi> {
     );
   }
 
-  onLogin() {
+  onLogin() async {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      print('nama :$_displayName email : $_email password : $_password');
+      dynamic fuser =
+          await FirestoreDart.auth.signUp("$_email", "$_password").catchError(
+                (e) => showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: Text('Sign-Up Gagal'),
+                    content: Text('$e'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('OK'),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+      String uid = fuser['id'];
+      if (uid != null) {
+        final document = FirestoreDart.userRef.document(uid);
+        if ((await document.exists)) {
+        } else {
+          document.create(map);
+        }
+      }
+      print(
+          'firebase-user $fuser nama :$_displayName email : $_email password : $_password');
     }
   }
 }
