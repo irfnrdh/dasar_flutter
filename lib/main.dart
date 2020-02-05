@@ -1,4 +1,3 @@
-import 'package:dasar_flutter/dasar_flutter/componen/alert.dart';
 import 'package:dasar_flutter/praktek_login/login_ui.dart';
 import 'package:dasar_flutter/praktek_login/signup_ui.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Alert(),
+      home: SignupUi(),
       routes: routes,
     );
   }

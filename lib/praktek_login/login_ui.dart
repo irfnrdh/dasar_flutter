@@ -1,4 +1,4 @@
-import 'package:dasar_flutter/praktek/signup_ui.dart';
+import 'package:dasar_flutter/praktek_login/signup_ui.dart';
 import 'package:flutter/material.dart';
 
 class LoginUi extends StatefulWidget {

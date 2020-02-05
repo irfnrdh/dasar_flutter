@@ -1,6 +1,7 @@
 import 'package:dasar_flutter/config.dart';
 import 'package:dasar_flutter/model/user.dart';
-import 'package:dasar_flutter/praktek/login_ui.dart';
+import 'package:dasar_flutter/praktek_login/home.dart';
+import 'package:dasar_flutter/praktek_login/login_ui.dart';
 import 'package:flutter/material.dart';
 
 class SignupUi extends StatefulWidget {
@@ -16,9 +17,9 @@ class _SignupUiState extends State<SignupUi> {
       SizedBox(height: height, width: width);
 
   User user = User.empty();
-  String _displayName = '';
+  //String _displayName = '';
   String _password = '';
-  String _email = '';
+  //String _email = '';
   bool _showPassword = true;
 
   @override
@@ -37,7 +38,7 @@ class _SignupUiState extends State<SignupUi> {
       keyboardType: TextInputType.text,
       validator: (val) =>
           val.length < 3 ? 'Nama lengkap menimal 3 karekter' : null,
-      onSaved: (val) => _displayName = val,
+      onSaved: (val) => user.name = val,
       decoration: InputDecoration(
         hintText: 'Masukkan Nama Lengkap anda',
         labelText: 'Nama Lengkap',
@@ -48,7 +49,7 @@ class _SignupUiState extends State<SignupUi> {
       initialValue: '',
       keyboardType: TextInputType.emailAddress,
       validator: (val) => !val.contains('@') ? 'Email tidak valid' : null,
-      onSaved: (val) => _email = val,
+      onSaved: (val) => user.email = val,
       decoration: InputDecoration(
         hintText: 'Masukkan email anda',
         labelText: 'Email',
@@ -82,7 +83,7 @@ class _SignupUiState extends State<SignupUi> {
           color: Theme.of(context).primaryColor,
           textColor: Theme.of(context).cardColor,
           child: Text('Daftar'.toUpperCase()),
-          onPressed: () => onLogin(),
+          onPressed: () => onSigUp(),
         ),
         space(width: 30.0),
         RaisedButton(
@@ -121,36 +122,54 @@ class _SignupUiState extends State<SignupUi> {
     );
   }
 
-  onLogin() async {
+  onSigUp() async {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      dynamic fuser =
-          await FirestoreDart.auth.signUp("$_email", "$_password").catchError(
-                (e) => showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                    title: Text('Sign-Up Gagal'),
-                    content: Text('$e'),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('OK'),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
+      dynamic fuser = await FirestoreDart.auth
+          .signUp("${user.email}", "$_password")
+          .catchError(
+            (e) => showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: Text('Sign-Up Gagal'),
+                content: Text('$e'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.pop(context),
                   ),
+                ],
+              ),
+            ),
+          );
+
+      //print('fuser-${(await fuser.id)} uid:${await fuser.runtimeType}');
+      String uid = await fuser.id;
+      if (uid != null || uid.isNotEmpty) {
+        user.uid = uid;
+        Future.delayed(Duration(seconds: 2), () async {
+          //print('login kembali  ${user.email} $_password');
+          final document = FirestoreDart.userRef.document(uid);
+          if ((await document.exists)) {
+            document.update(user.toJson());
+          } else {
+            final docId = await document
+                .create(user.toJson())
+                .catchError((e) => print('Failed save data $e'));
+            print('doct $docId');
+            if (docId != null) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Home(),
                 ),
               );
-      // String uid = fuser['id'];
-      // if (uid != null) {
-      //   final document = FirestoreDart.userRef.document(uid);
-      //   if ((await document.exists)) {
-      //   } else {
-      //     document.create(map);
-      //   }
-      // }
-      print(
-          'firebase-user $fuser nama :$_displayName email : $_email password : $_password');
+            }
+          }
+        });
+      }
+      // print('firebase-user $fuser nama :$user  password : $_password');
     }
   }
 }
