@@ -141,14 +141,14 @@ class _SignupUiState extends State<SignupUi> {
                   ),
                 ),
               );
-      String uid = fuser['id'];
-      if (uid != null) {
-        final document = FirestoreDart.userRef.document(uid);
-        if ((await document.exists)) {
-        } else {
-          document.create(map);
-        }
-      }
+      // String uid = fuser['id'];
+      // if (uid != null) {
+      //   final document = FirestoreDart.userRef.document(uid);
+      //   if ((await document.exists)) {
+      //   } else {
+      //     document.create(map);
+      //   }
+      // }
       print(
           'firebase-user $fuser nama :$_displayName email : $_email password : $_password');
     }

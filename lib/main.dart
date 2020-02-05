@@ -1,8 +1,6 @@
-//import 'package:dasar_flutter/praktek/dashboard_ui.dart';
-//import 'package:dasar_flutter/praktek/collapsing_toolbar.dart';
-//import 'package:dasar_flutter/praktek/login_ui.dart';
-import 'package:dasar_flutter/praktek/login_ui.dart';
-import 'package:dasar_flutter/praktek/signup_ui.dart';
+import 'package:dasar_flutter/dasar_flutter/componen/alert.dart';
+import 'package:dasar_flutter/praktek_login/login_ui.dart';
+import 'package:dasar_flutter/praktek_login/signup_ui.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter/';
@@ -19,12 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tes Kepribadian',
+      title: 'Belajar Flutter',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignupUi(),
+      home: Alert(),
       routes: routes,
     );
   }
