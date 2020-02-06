@@ -156,7 +156,7 @@ class _SignupUiState extends State<SignupUi> {
           } else {
             final docId = await document
                 .create(user.toJson())
-                .catchError((e) => print('Failed save data $e'));
+                .catchError((e) => print('F\ailed save data $e'));
             print('doct $docId');
             if (docId != null) {
               Navigator.pushReplacement(

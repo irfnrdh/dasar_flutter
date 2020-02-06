@@ -1,14 +1,24 @@
+import 'package:dasar_flutter/config.dart';
+import 'package:dasar_flutter/model/user.dart';
+import 'package:dasar_flutter/praktek_login/home.dart';
 import 'package:dasar_flutter/praktek_login/signup_ui.dart';
 import 'package:flutter/material.dart';
 
+import '../hive_db.dart';
+
 class LoginUi extends StatefulWidget {
   static String tag = 'login-page';
-
   @override
   _LoginUiState createState() => _LoginUiState();
 }
 
 class _LoginUiState extends State<LoginUi> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  User user = User.empty();
+  String _password = '';
+  bool _showPassword = true;
   @override
   Widget build(BuildContext context) {
     final logo = Hero(
@@ -23,7 +33,8 @@ class _LoginUiState extends State<LoginUi> {
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
-      initialValue: 'studio@irfnrdh.com',
+      onSaved: (val) => user.email = val,
+      // initialValue: 'studio@irfnrdh.com',
       decoration: InputDecoration(
         hintText: 'Email',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -33,8 +44,9 @@ class _LoginUiState extends State<LoginUi> {
 
     final password = TextFormField(
         autofocus: false,
-        initialValue: 'Katasandi',
+        // initialValue: 'Katasandi',
         obscureText: true,
+        onSaved: (val) => _password = val,
         decoration: InputDecoration(
             hintText: 'katasandi',
             contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -47,9 +59,7 @@ class _LoginUiState extends State<LoginUi> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () {
-          // Navigator.of(context).pushNamed(HomePage.tag);
-        },
+        onPressed: () => onLogin(),
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
         child: Text('Log In', style: TextStyle(color: Colors.white)),
@@ -78,24 +88,77 @@ class _LoginUiState extends State<LoginUi> {
     );
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[
-            logo,
-            SizedBox(height: 48.0),
-            email,
-            SizedBox(height: 8.0),
-            password,
-            SizedBox(height: 24.0),
-            loginButton,
-            forgotLabel,
-            signupButton
-          ],
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(left: 24.0, right: 24.0),
+            children: <Widget>[
+              logo,
+              SizedBox(height: 48.0),
+              email,
+              SizedBox(height: 8.0),
+              password,
+              SizedBox(height: 24.0),
+              loginButton,
+              forgotLabel,
+              signupButton
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  onLogin() async {
+    final form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      dynamic fuser = await FirestoreDart.auth
+          .signIn("${user.email}", "$_password")
+          .catchError(
+            (e) => showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: Text('Sign-Up Gagal'),
+                content: Text('$e'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+          );
+
+      //print('fuser-${(await fuser.id)} uid:${await fuser.runtimeType}');
+      String uid = await fuser.id;
+
+      if (uid != null) {
+        _addHiveDb(uid, user.email, _password);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => Home(),
+          ),
+        );
+      }
+
+      // print('firebase-user $fuser nama :$user  password : $_password');
+    }
+  }
+
+  _addHiveDb(
+    String uid,
+    String email,
+    String pass,
+  ) {
+    final _repo = Hivedb();
+    final model = {"uid": uid, "email": email, "pass": pass};
+    _repo.addHiveDb(model);
   }
 }
