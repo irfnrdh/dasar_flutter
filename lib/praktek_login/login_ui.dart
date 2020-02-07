@@ -19,6 +19,7 @@ class _LoginUiState extends State<LoginUi> {
   User user = User.empty();
   String _password = '';
   bool _showPassword = true;
+
   @override
   Widget build(BuildContext context) {
     final logo = Hero(

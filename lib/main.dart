@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
             if (snap.connectionState == ConnectionState.done ||
                 snap.connectionState == ConnectionState.active &&
                     snap.data != null) {
-              print('sdasadsa sada ${snap.data['uid']}');
+              print('User Id : ${snap.data['uid']}');
               return Home();
             } else if (snap.data == null) {
               return LoginUi();
