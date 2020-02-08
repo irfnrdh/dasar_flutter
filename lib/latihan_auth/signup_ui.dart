@@ -1,22 +1,29 @@
 import 'package:dasar_flutter/config.dart';
 import 'package:dasar_flutter/model/user.dart';
-import 'package:dasar_flutter/praktek_login/home.dart';
-import 'package:dasar_flutter/praktek_login/login_ui.dart';
+import 'package:dasar_flutter/latihan_auth/home.dart';
+import 'package:dasar_flutter/latihan_auth/login_ui.dart';
 import 'package:flutter/material.dart';
 
 class SignupUi extends StatefulWidget {
+  // Menambahkan nama route
   static String routeName = 'sign-up';
+
   @override
   _SignupUiState createState() => _SignupUiState();
 }
 
 class _SignupUiState extends State<SignupUi> {
+  // Menambahkan Key Untuk Form
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Membuat Widget Untuk Spasi
   Widget space({double height, double width}) =>
       SizedBox(height: height, width: width);
 
+  // Menginisialisasi Model User Kosong
   User user = User.empty();
+
   //String _displayName = '';
   String _password = '';
   //String _email = '';
@@ -24,6 +31,7 @@ class _SignupUiState extends State<SignupUi> {
 
   @override
   Widget build(BuildContext context) {
+    // Tampilan Logo
     final logo = Hero(
       tag: 'hero',
       child: CircleAvatar(
@@ -33,11 +41,13 @@ class _SignupUiState extends State<SignupUi> {
       ),
     );
 
+    // Inputan Nama
     final nameTextField = TextFormField(
       initialValue: '',
       keyboardType: TextInputType.text,
       validator: (val) =>
           val.length < 3 ? 'Nama lengkap menimal 3 karekter' : null,
+      // Menyimpan value ke model user.nama
       onSaved: (val) => user.name = val,
       decoration: InputDecoration(
         hintText: 'Masukkan Nama Lengkap anda',
@@ -45,10 +55,12 @@ class _SignupUiState extends State<SignupUi> {
       ),
     );
 
+    //Inputan Email
     final emailTextField = TextFormField(
       initialValue: '',
       keyboardType: TextInputType.emailAddress,
       validator: (val) => !val.contains('@') ? 'Email tidak valid' : null,
+      // Menyimpan value ke model user.email
       onSaved: (val) => user.email = val,
       decoration: InputDecoration(
         hintText: 'Masukkan email anda',
@@ -56,11 +68,13 @@ class _SignupUiState extends State<SignupUi> {
       ),
     );
 
+    //Inputan Password
     final passwordTextField = TextFormField(
       initialValue: '',
       keyboardType: TextInputType.text,
       validator: (val) =>
           val.length < 6 ? 'Password Minmal lebih dari 6 Karekter' : null,
+      // menyimpan value ke variabel password
       onSaved: (val) => _password = val,
       obscureText: _showPassword,
       decoration: InputDecoration(
@@ -76,6 +90,7 @@ class _SignupUiState extends State<SignupUi> {
       ),
     );
 
+    //Tombol Button Login
     final loginButton = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -83,6 +98,7 @@ class _SignupUiState extends State<SignupUi> {
           color: Theme.of(context).primaryColor,
           textColor: Theme.of(context).cardColor,
           child: Text('Daftar'.toUpperCase()),
+          // Mengarahkan ke fungsi signup
           onPressed: () => onSigUp(),
         ),
         space(width: 30.0),
@@ -90,10 +106,12 @@ class _SignupUiState extends State<SignupUi> {
             color: Theme.of(context).primaryColor,
             textColor: Theme.of(context).cardColor,
             child: Text('Masuk'.toUpperCase()),
+            // Mengarahkan ke halaman login
             onPressed: () => Navigator.pushNamed(context, LoginUi.tag))
       ],
     );
 
+    // Tampilan Utama Dasar
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
@@ -123,11 +141,15 @@ class _SignupUiState extends State<SignupUi> {
   }
 
   onSigUp() async {
+    // mendapatkan key form
     final form = _formKey.currentState;
+    // mengecek validasi form
     if (form.validate()) {
       form.save();
+      // Koneksi & signup ke Firedart
       dynamic fuser = await FirestoreDart.auth
           .signUp("${user.email}", "$_password")
+          // Menampilkan Pesan Error
           .catchError(
             (e) => showDialog(
               context: context,
@@ -145,7 +167,11 @@ class _SignupUiState extends State<SignupUi> {
           );
 
       //print('fuser-${(await fuser.id)} uid:${await fuser.runtimeType}');
+
+      // Menyimpan User id login ke variabel UID
       String uid = await fuser.id;
+
+      // Mengecek apakah UID sudah ada di Database Firebase
       if (uid != null || uid.isNotEmpty) {
         user.uid = uid;
         Future.delayed(Duration(seconds: 2), () async {

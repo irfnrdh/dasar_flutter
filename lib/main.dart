@@ -1,14 +1,15 @@
-import 'package:dasar_flutter/praktek_login/login_ui.dart';
-import 'package:dasar_flutter/praktek_login/signup_ui.dart';
+import 'package:dasar_flutter/latihan_auth/login_ui.dart';
+import 'package:dasar_flutter/latihan_auth/signup_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:dasar_flutter/hive_db.dart';
 
-import 'praktek_login/home.dart';
-
-// import 'package:flutter/';
+import 'latihan_auth/home.dart';
 
 void main() async {
+  // Mengatasi Permasalahan Error Baru
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Memanggil Koneksi Hive DB Ketika Apliasi Berjalan
   await Hivedb.hvConnect;
   runApp(MyApp());
 }
@@ -16,6 +17,7 @@ void main() async {
 //await Hivedb.hvConnect();
 
 class MyApp extends StatelessWidget {
+  // Route perpindahan halaman
   final routes = <String, WidgetBuilder>{
     LoginUi.tag: (context) => LoginUi(),
     SignupUi.routeName: (context) => SignupUi(),
@@ -27,21 +29,34 @@ class MyApp extends StatelessWidget {
     final _repo = Hivedb();
     return MaterialApp(
       title: 'Belajar Flutter',
+      // Menghilangkan Bacaan Debug di Aplikasi
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+
+      // Memeriksa apakah sudah pernah login atau belum
       home: FutureBuilder(
+          //Sumber data
           future: _repo.itemHiveDb(),
+          //Mengecek Koneksi
           builder: (BuildContext context, AsyncSnapshot snap) {
-            if (snap.connectionState == ConnectionState.done ||
-                snap.connectionState == ConnectionState.active &&
-                    snap.data != null) {
-              print('User Id : ${snap.data['uid']}');
+            // if (snap.hasData == null) {
+            //   return LoginUi();
+            // } else {
+            //   return Home();
+            // }
+
+            if (snap.connectionState == ConnectionState.active &&
+                snap.data != null) {
+              // Todo : Mengecek UID sudah terdaftar atau belum
+              //print('User Id Main : ${snap.data['uid']}');
               return Home();
-            } else if (snap.data == null) {
+            } else if (snap.hasData == null) {
+              // Jika data histori login pada hive db tidak ditemukan
               return LoginUi();
             } else {
+              // Jika tidak ada koneksi menampilkan loading
               print('${snap.data} ${snap.connectionState}');
               return Scaffold(
                 body: Center(
@@ -57,6 +72,8 @@ class MyApp extends StatelessWidget {
               );
             }
           }),
+
+      // Route ke halaman lain
       routes: routes,
     );
   }

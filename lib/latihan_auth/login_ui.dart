@@ -1,7 +1,7 @@
 import 'package:dasar_flutter/config.dart';
 import 'package:dasar_flutter/model/user.dart';
-import 'package:dasar_flutter/praktek_login/home.dart';
-import 'package:dasar_flutter/praktek_login/signup_ui.dart';
+import 'package:dasar_flutter/latihan_auth/home.dart';
+import 'package:dasar_flutter/latihan_auth/signup_ui.dart';
 import 'package:flutter/material.dart';
 
 import '../hive_db.dart';

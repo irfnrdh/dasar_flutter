@@ -1,11 +1,10 @@
-import 'package:dasar_flutter/praktek_login/login_ui.dart';
+import 'package:dasar_flutter/latihan_auth/login_ui.dart';
 //import 'package:dasar_flutter/model/user.dart';
 import 'package:flutter/material.dart';
 import '../hive_db.dart';
 
 class Home extends StatelessWidget {
   // const Home({Key key}) : super(key: key);
-  // var id = null;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +14,13 @@ class Home extends StatelessWidget {
       body: FutureBuilder(
           future: _repo.itemHiveDb(),
           builder: (BuildContext context, AsyncSnapshot snap) {
-            if (snap.connectionState == ConnectionState.done ||
-                snap.connectionState == ConnectionState.active &&
-                    snap.data != null) {
-              //id = snap.data['uid'];
-              //print('User Id Home : ${snap.data['uid']}');
+            if (snap.connectionState == ConnectionState.active &&
+                snap.data != null) {
+              print('${snap.data} ${snap.connectionState}');
+              if (snap.data != null) {
+                print('User Id Home : ${snap.data['uid']}');
+              }
+
               return Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -28,19 +29,24 @@ class Home extends StatelessWidget {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Text('ID : ${snap.data['uid']}'),
                   SizedBox(
                     height: 20.0,
                   ),
                   RaisedButton(
                       child: Text('Logout'),
                       onPressed: () {
-                        _removeHiveDb();
+                        print(snap.data['uid']);
+
+                        final _repo = Hivedb();
+                        _repo.deleteHiveDb(snap.data['uid']);
+                        print('Telah dihapus');
+
                         //onLogout();
                       }),
                 ],
               ));
             } else if (snap.data == null) {
+              print('${snap.data} ${snap.connectionState}');
               return LoginUi();
             } else {
               print('${snap.data} ${snap.connectionState}');
@@ -51,7 +57,8 @@ class Home extends StatelessWidget {
                     children: <Widget>[
                       CircularProgressIndicator(),
                       SizedBox(height: 14),
-                      Text('Loading ...'),
+                      // Text('Loading ...'),
+                      Text('${snap.data} ${snap.connectionState}'),
                     ],
                   ),
                 ),
