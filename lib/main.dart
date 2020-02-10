@@ -40,50 +40,31 @@ class MyApp extends StatelessWidget {
           future: _repo.itemHiveDb(),
           //Mengecek Koneksi
           builder: (BuildContext context, AsyncSnapshot snap) {
-            if (snap.connectionState == ConnectionState.active) {
-              // Todo : Mengecek UID sudah terdaftar atau belum
-              print('User Id Main : ${snap.data['uid']}');
-              if (snap.connectionState == ConnectionState.done) {
-                if (snap.data != null) {
-                  return Home();
-                } else {
-                  return LoginUi();
-                }
+            if (!snap.hasData &&
+                    snap.connectionState == ConnectionState.active ||
+                snap.connectionState == ConnectionState.done) {
+              var auth = snap.data;
+              //_repo.deleteHiveDb('h0tsYp99O3SAtXKa6amoQwQF5hp1');
+              if (auth != null) {
+                print('User Id Main : ${auth['uid']}');
+                if (auth['uid'] != null) return Home();
               } else {
-                // Jika tidak ada koneksi menampilkan loading
-                print(
-                    'eror broh, Snap data : ${snap.data} Snapkoneksi :  ${snap.connectionState}');
-                return Scaffold(
-                  body: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CircularProgressIndicator(),
-                        SizedBox(height: 14),
-                        Text('Menunggu Proses Selesai ...'),
-                      ],
-                    ),
-                  ),
-                );
+                return LoginUi();
               }
-            } else {
-              if (snap.data != null) {
-                return Home();
-              }
-              print('User Id Main : ${snap.data['uid']}');
-              return Scaffold(
-                body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      SizedBox(height: 14),
-                      Text('Menunggu Koneksi Aktif...'),
-                    ],
-                  ),
-                ),
-              );
             }
+
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(height: 14),
+                    Text('Menunggu Proses Selesai ...'),
+                  ],
+                ),
+              ),
+            );
           }),
 
       // Route ke halaman lain

@@ -3,6 +3,7 @@ import 'package:dasar_flutter/model/user.dart';
 import 'package:dasar_flutter/latihan_auth/home.dart';
 import 'package:dasar_flutter/latihan_auth/signup_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:firedart/auth/user_gateway.dart' as fuser;
 
 import '../hive_db.dart';
 
@@ -34,6 +35,9 @@ class _LoginUiState extends State<LoginUi> {
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
+      validator: (val) =>
+          val.length < 3 ? 'Nama lengkap menimal 3 karekter' : null,
+      // Menyimpan value ke model user.nama
       onSaved: (val) => user.email = val,
       // initialValue: 'studio@irfnrdh.com',
       decoration: InputDecoration(
@@ -47,6 +51,7 @@ class _LoginUiState extends State<LoginUi> {
         autofocus: false,
         // initialValue: 'Katasandi',
         obscureText: true,
+        validator: (val) => val.length < 3 ? 'Tidak boleh kosong' : null,
         onSaved: (val) => _password = val,
         decoration: InputDecoration(
             hintText: 'katasandi',
@@ -118,8 +123,8 @@ class _LoginUiState extends State<LoginUi> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      dynamic fuser = await FirestoreDart.auth
-          .signIn("${user.email}", "$_password")
+      fuser.User userLogin = await FirestoreDart.auth
+          .signIn("${user?.email ?? ''}", "${_password ?? ''}")
           .catchError(
             (e) => showDialog(
               context: context,
@@ -137,7 +142,7 @@ class _LoginUiState extends State<LoginUi> {
           );
 
       //print('fuser-${(await fuser.id)} uid:${await fuser.runtimeType}');
-      String uid = await fuser.id;
+      String uid = userLogin.id;
 
       if (uid != null) {
         _addHiveDb(uid, user.email, _password);
