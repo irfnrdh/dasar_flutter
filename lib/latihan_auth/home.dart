@@ -14,40 +14,39 @@ class Home extends StatelessWidget {
       body: FutureBuilder(
           future: _repo.itemHiveDb(),
           builder: (BuildContext context, AsyncSnapshot snap) {
-            if (snap.connectionState == ConnectionState.active &&
-                snap.data != null) {
-              print('${snap.data} ${snap.connectionState}');
+            if (snap.connectionState == ConnectionState.active ||
+                snap.connectionState == ConnectionState.done) {
               if (snap.data != null) {
+                print('${snap.data} ${snap.connectionState}');
+                return Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Home'.toUpperCase()),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    RaisedButton(
+                        child: Text('Logout'),
+                        onPressed: () {
+                          print(snap.data['uid']);
+
+                          final _repo = Hivedb();
+                          _repo.deleteHiveDb(snap.data['uid']);
+                          print('Telah dihapus');
+
+                          //onLogout();
+                        }),
+                  ],
+                ));
+              } else {
+                print('${snap.data} ${snap.connectionState}');
                 print('User Id Home : ${snap.data['uid']}');
+                return LoginUi();
               }
-
-              return Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Home'.toUpperCase()),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  RaisedButton(
-                      child: Text('Logout'),
-                      onPressed: () {
-                        print(snap.data['uid']);
-
-                        final _repo = Hivedb();
-                        _repo.deleteHiveDb(snap.data['uid']);
-                        print('Telah dihapus');
-
-                        //onLogout();
-                      }),
-                ],
-              ));
-            } else if (snap.data == null) {
-              print('${snap.data} ${snap.connectionState}');
-              return LoginUi();
             } else {
               print('${snap.data} ${snap.connectionState}');
               return Scaffold(
@@ -57,8 +56,8 @@ class Home extends StatelessWidget {
                     children: <Widget>[
                       CircularProgressIndicator(),
                       SizedBox(height: 14),
-                      // Text('Loading ...'),
-                      Text('${snap.data} ${snap.connectionState}'),
+                      Text('Menunggu Koneksi Aktif...'),
+                      //Text('${snap.data} ${snap.connectionState}'),
                     ],
                   ),
                 ),

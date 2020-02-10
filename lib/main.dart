@@ -15,7 +15,6 @@ void main() async {
 }
 
 //await Hivedb.hvConnect();
-
 class MyApp extends StatelessWidget {
   // Route perpindahan halaman
   final routes = <String, WidgetBuilder>{
@@ -41,23 +40,37 @@ class MyApp extends StatelessWidget {
           future: _repo.itemHiveDb(),
           //Mengecek Koneksi
           builder: (BuildContext context, AsyncSnapshot snap) {
-            // if (snap.hasData == null) {
-            //   return LoginUi();
-            // } else {
-            //   return Home();
-            // }
-
-            if (snap.connectionState == ConnectionState.active &&
-                snap.data != null) {
+            if (snap.connectionState == ConnectionState.active) {
               // Todo : Mengecek UID sudah terdaftar atau belum
-              //print('User Id Main : ${snap.data['uid']}');
-              return Home();
-            } else if (snap.hasData == null) {
-              // Jika data histori login pada hive db tidak ditemukan
-              return LoginUi();
+              print('User Id Main : ${snap.data['uid']}');
+              if (snap.connectionState == ConnectionState.done) {
+                if (snap.data != null) {
+                  return Home();
+                } else {
+                  return LoginUi();
+                }
+              } else {
+                // Jika tidak ada koneksi menampilkan loading
+                print(
+                    'eror broh, Snap data : ${snap.data} Snapkoneksi :  ${snap.connectionState}');
+                return Scaffold(
+                  body: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                        SizedBox(height: 14),
+                        Text('Menunggu Proses Selesai ...'),
+                      ],
+                    ),
+                  ),
+                );
+              }
             } else {
-              // Jika tidak ada koneksi menampilkan loading
-              print('${snap.data} ${snap.connectionState}');
+              if (snap.data != null) {
+                return Home();
+              }
+              print('User Id Main : ${snap.data['uid']}');
               return Scaffold(
                 body: Center(
                   child: Column(
@@ -65,7 +78,7 @@ class MyApp extends StatelessWidget {
                     children: <Widget>[
                       CircularProgressIndicator(),
                       SizedBox(height: 14),
-                      Text('Loading ...'),
+                      Text('Menunggu Koneksi Aktif...'),
                     ],
                   ),
                 ),
